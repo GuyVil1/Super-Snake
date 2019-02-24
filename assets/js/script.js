@@ -17,7 +17,7 @@ function theGame(){
     let timeOut;
     let gloup = new Audio('assets/audio/gloup.ogg');
     let run = new Audio('assets/audio/moove.ogg');
-    let power = new Audio ('assets/audio.power-up.ogg');
+    let power = new Audio ('assets/audio.powerup.ogg');
     let end = new Audio('assets/audio/end.ogg');
     let loop = new SeamlessLoop();//je créer une variable loop pour gérer la musique en boucle (bibliothèque js seamless)
     let loop2 = new SeamlessLoop();
@@ -36,13 +36,21 @@ function theGame(){
     
     function music2()
     {
-        if(score >=2)
-        {   
+        if(score==30)
+        {
         loop.stop();
         loop2.addUri('assets/audio/Stress-loop.ogg', 2717, "sound1");
         loop2.start("sound1");
         }
     }
+
+    // function powerup()
+    // {
+    //     if(score==2)
+    //     {
+    //         power.play();
+    //     }
+    // }
     
     function init(){
         let canvas = document.createElement('canvas');
@@ -85,6 +93,7 @@ function theGame(){
                 if(score >= 30)
                 {
                     delay =50;
+                    music2();
                 }
             }
             ctx.clearRect(0,0,canvasWidth,canvasHeight);
@@ -113,6 +122,7 @@ function theGame(){
         ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 40);
         delay = 200;
         loop.stop();
+        loop2.stop();
         ctx.restore();
     }
     

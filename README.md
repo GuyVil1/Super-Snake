@@ -1,1 +1,1 @@
-# Super-Snake
+# Snake

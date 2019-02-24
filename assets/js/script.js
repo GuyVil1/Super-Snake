@@ -1,5 +1,7 @@
 function theGame(){
-    document.getElementById('bton').style.display = 'none';
+    document.getElementById('bton').style.display = 'none';//je retire le bouton start: plus besoin.
+    document.getElementById('bton2').style.display = 'none';//je retire le bouton start: plus besoin.
+    //definition de mes variables globales
     let canvasWidth = 800;
     let canvasHeight = 400;
     let blockSize = 20;
@@ -13,11 +15,12 @@ function theGame(){
     let heightInBlocks = canvasHeight/blockSize;
     let score;
     let timeOut;
-    let gloup = new Audio('/assets/audio/gloup.ogg');
-    let run = new Audio('/assets/audio/moove.ogg');
-    let end = new Audio('/assets/audio/end.ogg');
+    let gloup = new Audio('assets/audio/gloup.ogg');
+    let run = new Audio('assets/audio/moove.ogg');
+    let power = new Audio ('assets/audio.power-up.ogg');
+    let end = new Audio('assets/audio/end.ogg');
     let loop = new SeamlessLoop();//je créer une variable loop pour gérer la musique en boucle (bibliothèque js seamless)
-
+    let loop2 = new SeamlessLoop();
 
 
     
@@ -26,20 +29,20 @@ function theGame(){
     {
             //je déclare les paramètres de l'objet nommé loop
             //entre parenthèse : chemin vers le fichier audio, longueur du fichier en millisecondes, 
-            loop.addUri('/assets/audio/zen-loop.ogg', 10710, "sound1");
-            loop.addUri('/assets/audio/Stress-loop.ogg', 2717, "sound2");
-            if(score<=0)
-            { 
+            loop.addUri('assets/audio/zen-loop.ogg', 10710, "sound1");
             loop.start("sound1");
-            }
-            if(score>0)
-            {
-                loop.stop();
-                loop.start("sound2");
-            }
-
     }
 
+    
+    function music2()
+    {
+        if(score >=2)
+        {   
+        loop.stop();
+        loop2.addUri('assets/audio/Stress-loop.ogg', 2717, "sound1");
+        loop2.start("sound1");
+        }
+    }
     
     function init(){
         let canvas = document.createElement('canvas');
@@ -61,6 +64,7 @@ function theGame(){
     function refreshCanvas(){
         snakee.advance();
         if (snakee.checkCollision()){
+            end.play();
             gameOver();
         } else {
             if (snakee.isEatingApple(applee)){
@@ -90,6 +94,7 @@ function theGame(){
             timeOut = setTimeout(refreshCanvas,delay);
         }
     }
+
     
     function gameOver(){
         ctx.save();
@@ -107,6 +112,7 @@ function theGame(){
         ctx.strokeText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 40);
         ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 40);
         delay = 200;
+        loop.stop();
         ctx.restore();
     }
     
@@ -114,6 +120,7 @@ function theGame(){
         snakee = new Snake([[6,4],[5,4],[4,4]],"right");
         applee = new Apple([10,10]);
         score = 0;
+        music();
         clearTimeout(timeOut);
         refreshCanvas();
     }

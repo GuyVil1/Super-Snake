@@ -36,7 +36,7 @@ function theGame(){
     
     function music2()
     {
-        if(score==2)
+        if(score==30)
         {
         loop.stop();
         loop2.addUri('assets/audio/Stress-loop.ogg', 2717, "sound1");
@@ -82,11 +82,9 @@ function theGame(){
                 do {
                     applee.setNewPosition(); 
                 } while(applee.isOnSnake(snakee));
-                if(score >= 2)
+                if(score >= 10)
                 {
                     delay = 150;
-                    music2();
-
                 }
                 if(score >= 20)
                 {
@@ -95,6 +93,7 @@ function theGame(){
                 if(score >= 30)
                 {
                     delay =50;
+                    music2();
                 }
             }
             ctx.clearRect(0,0,canvasWidth,canvasHeight);
@@ -306,219 +305,3 @@ function theGame(){
         snakee.setDirection(newDirection);
     };
 }
-
-
-// window.onload = function()
-// {
-//     let canvaswidth = 900;
-//     let canvasheigth = 600;
-//     let blockSize = 30;
-//     let ctx;
-//     let delay = 100;
-//     let kaa;
-//     let aple;
-//     let widthInBlock = canvaswidth/blockSize;//je divise virtuellement mon aire de jeu en block pour faciliter les check collision
-//     let heightInBlock = canvasheigth/blockSize;
-
-//     init ();
-
-//     function init()
-//     {
-//         let canvas = document.createElement('canvas');
-//         canvas.width = canvaswidth;
-//         canvas.height = canvasheigth;
-//         canvas.style.border = "3px solid";
-//         document.body.appendChild(canvas);
-//         ctx = canvas.getContext('2d');
-//         kaa = new Snake([[6,4], [5,4], [4,4]], "right");
-//         aple = new apple([10,10]);
-//         refreshCanvas();
-//     }
-
-//     function refreshCanvas()
-//     {
-//         kaa.advance();
-
-//         if(kaa.checkCollision())
-//         {
-//             //game over
-//         }
-//         else
-//         {
-//             if(kaa.isEatingApple(apple))
-//             {
-//                 //le serpent à mangé la pomme
-//                 aple.setNewPosition();
-
-//             }
-//         ctx.clearRect(0,0,canvaswidth,canvasheigth);
-//         kaa.draw();
-//         aple.draw();
-//         setTimeout(refreshCanvas,delay);
-//         }
-//     }
-
-//     function drawBlock(ctx, position)
-//     {
-//         let x = position[0] * blockSize;
-//         let y = position[1] * blockSize;
-//         ctx.fillRect(x ,y , blockSize, blockSize);
-//     }
-
-//     function Snake(body, direction)
-//     {
-//         this.body = body;
-//         this.direction = direction;
-//         this.draw = function()
-//         {
-//             ctx.save();
-//             ctx.fillStyle = "blue";
-//             for(let i = 0; i < this.body.length; i++)
-//             {
-//                 drawBlock(ctx, this.body[i]);
-//             }
-//             ctx.restore();
-//         };
-
-
-//         this.advance = function()
-//         {
-//             let nextPosition = this.body[0].slice();
-//             switch(this.direction)
-//             {
-//                 case "left":
-//                     nextPosition[0] -=1;
-//                     break;
-//                 case "right":
-//                     nextPosition[0] +=1;
-//                     break;
-//                 case "down":
-//                     nextPosition[1] +=1;
-//                     break;
-//                 case "up":
-//                     nextPosition[1] -=1;
-//                     break;
-//                 // default:
-//                 //     throw("direction invalide");
-//             }
-//             this.body.unshift(nextPosition);
-//             this.body.pop();
-//         };
-//         this.setDirection = function(newDirection)
-//         {
-//             let allowedDirections;
-//             switch(this.direction)
-//             {
-//                 case "left":
-//                 case "right":
-//                     allowedDirections = ["up", "down"];
-//                 break;
-//             case "down":
-//             case "up":
-//                 allowedDirections = ["left", "right"];
-//             break;
-//             // default:
-//             //     throw("direction invalide");
-//             }
-//             if(allowedDirections.indexOf(newDirection) > -1)
-//             {
-//                 this.direction = newDirection;
-//             }
-//         };
-//         this.checkCollision = function()
-//         {
-//             let wallCollision = false;
-//             let bodyCollision = false;
-//             let head = this.body[0]; //je défini ou se trouve la tête du serpent
-//             let rest = this.body.slice(1);
-//             let kaaX = head[0];
-//             let kaaY = head[1];
-//             let minX = 0;//la position minimum ou peut se trouver mon serpent dans ma grille
-//             let minY = 0;
-//             let maxX = widthInBlock - 1;//la position maximum ou peut se trouver mon serpent dans ma grille
-//             let maxY = heightInBlock - 1;
-//             let isNotBetweenHorizontalWalls = kaaX < minX || kaaX > maxX;// je défini les option de wall contact
-//             let isNotBetweenVerticalWalls = kaaY < minY || kaaY > maxY;
-
-//             if(isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls)
-//             {// si je sors de ma zone hauteur ou largeur, alors wallcolision pase en true, 
-//                 wallCollision = true;
-//             }
-
-//             for(let i=0; i < rest.length; i++)
-//             {
-
-//                 if( kaaX === rest[i][0] && kaaY === rest[i][1] )
-//                 {
-//                     bodyCollision = true;
-//                 }
-
-//             }
-
-//             return wallCollision || bodyCollision;
-//         };
-
-//         this.isEatingApple = function(appleToEat){
-//             let head = this.body[0];
-//             if (head[0] === appleToEat.position[0] && head[1] === appleToEat.position[1])
-//                 return true;
-//             else
-//                 return false;
-//         }
-//     }
-
-//     //creer la pomme
-
-//     function apple(position)
-//     {
-
-//         this.position = position;
-//         this.draw = function()
-//         {
-
-//             ctx.save();
-//             ctx.fillStyle = "#33cc33";
-//             ctx.beginPath();
-//             let radius = blockSize/2;
-//             let x = this.position[0] * blockSize + radius;
-//             let y = this.position[1] * blockSize + radius;
-//             ctx.arc(x, y, radius, 0, Math.PI*2, true);
-//             ctx.fill();
-//             ctx.restore();
-
-//         };
-//         this.setNewPosition = function()
-//         {
-
-//             let newX = Math.round(Math.random() * (widthInBlock -1));
-//             let newY = Math.round(Math.random() * (heightInBlock -1));
-//             this.position = [newX, newY];
-
-//         };
-
-//     }
-
-//     document.onkeydown = function handleKeyDown(e)
-//     {
-//         let key = e.keyCode;
-//         let newDirection;
-//         switch(key)
-//         {
-//             case 37:
-//                 newDirection = "left";
-//                 break;
-//             case 38:
-//                 newDirection = "up";
-//                 break;
-//             case 39:
-//                 newDirection = "right";
-//                 break;
-//             case 40:
-//                 newDirection = "down";
-//                 break;
-//             default:
-//                 return;
-//         }
-//         kaa.setDirection(newDirection);
-//     }
-// }

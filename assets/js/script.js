@@ -36,7 +36,7 @@ function theGame(){
     
     function music2()
     {
-        if(score==30)
+        if(score==2)
         {
         loop.stop();
         loop2.addUri('assets/audio/Stress-loop.ogg', 2717, "sound1");
@@ -82,9 +82,11 @@ function theGame(){
                 do {
                     applee.setNewPosition(); 
                 } while(applee.isOnSnake(snakee));
-                if(score >= 10)
+                if(score >= 2)
                 {
                     delay = 150;
+                    music2();
+
                 }
                 if(score >= 20)
                 {
@@ -93,7 +95,6 @@ function theGame(){
                 if(score >= 30)
                 {
                     delay =50;
-                    music2();
                 }
             }
             ctx.clearRect(0,0,canvasWidth,canvasHeight);
